@@ -59,3 +59,25 @@ int _putsfd(char *str, int fd)
 	}
 	return (i);
 }
+
+/**
+ * _putfd - writes char c to fd
+ * @c: char to print
+ * @fd: filedescriptor to write to
+ *
+ * Return: 1 on success, -1 on fail.
+ */
+int _putfd(char c, int fd)
+{
+	static int i;
+	static char buf[WRITE_BUF_SIZE];
+
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	{
+		write(fd, buf, i);
+		i = 0;
+	}
+	if (c != BUF_FLUSH)
+		buf[i++] = c;
+	return (1);
+}

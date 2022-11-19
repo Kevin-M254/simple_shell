@@ -6,15 +6,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include <unistd.h>
-#include <dirent.h>
-#include <limits.h>
-#include <string.h>
 #include <errno.h>
-#include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <limits.h>
 
 /* read/write bufers */
 #define READ_BUF_SIZE 1024
@@ -38,6 +34,8 @@
 /* history */
 #define HIST_FILE	".simple_shell_history"
 #define HIST_MAX	4096
+
+extern char **environ;
 
 /**
  * struct liststr - singly linked list
@@ -90,6 +88,7 @@ typedef struct passinfo
 	char **environ;
 	int env_changed;
 	int status;
+
 	char **cmd_buf;
 	int cmd_buf_type;
 	int readfd;
@@ -110,9 +109,6 @@ typedef struct builtin
 	char *type;
 	int (*func)(info_t *);
 } builtin_table;
-
-extern char **environ;
-
 
 /* toem_shloop.c */
 int hsh(info_t *, char **);
