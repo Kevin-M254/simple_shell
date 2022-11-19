@@ -9,72 +9,54 @@
  */
 int _strcmp(char *s1, char *s2)
 {
-	int i = 0;
-
-	for (; (*s2 != '\0' && *s1 != '\0') && *s1 == *s2; s1++)
+	while (*s1 && *s2)
 	{
-		if (i == 3)
-			break;
-		i++;
+		if (*s1 != *s2)
+			return (*s1 - *s2);
+		s1++;
 		s2++;
 	}
-
-	return (*s1 - *s2);
+	if (*s1 == *s2)
+		return (0);
+	else
+		return (*s1 < *s2 ? -1 : 1);
 }
 
 /**
  * _strlen - finds length of string
- * @str: string
+ * @s: string
  *
  * Return: int length of str.
  */
-int _strlen(char *str)
+int _strlen(char *s)
 {
-	int i;
+	int i = 0;
 
-	for (i = 0; str[i] != '\0'; i++)
-		;
+	if (!s)
+		return (0);
 
+	while (*s++)
+		i++;
 	return (i);
 }
 
 /**
  * _strcat - concatenates string
- * @s1: first string
- * @s2: second string
+ * @dest: first string
+ * @src: second string
  *
  * Return: Concatenated string.
  */
-char *_strcat(char *s1, char *s2)
+char *_strcat(char *dest, char *src)
 {
-	char *str;
-	int len1, len2, j, i, k;
+	char *ret = dest;
 
-	if (s1 == NULL)
-		s1 = "";
-	if (s2 == NULL)
-		s2 = "";
-
-	len1 = _strlen(s1);
-
-	len2 = _strlen(s2);
-
-	str = malloc(((len1) + (len2) + 1) * sizeof(char));
-
-	if (str == NULL)
-		return (NULL);
-
-	for (j = 0; j < len1; j++)
-	{
-		str[j] = s1[j];
-	}
-
-	for (i = len1, k = 0; k <= len2; i++, k++)
-	{
-		str[i] = s2[k];
-	}
-
-	return (str);
+	while (*dest)
+		dest++;
+	while (*src)
+		*dest++ = *src++;
+	*dest = *src;
+	return (ret);
 }
 
 /**
