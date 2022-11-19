@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * _strcmpdir - compares strings to find dir
+ * _strcmp - compares strings to find dir
  * @s1: string 1
  * @s2: string 2
  *
  * Return: Integer.
  */
-int _strcmpdir(char *s1, char *s2)
+int _strcmp(char *s1, char *s2)
 {
 	int i = 0;
 
@@ -39,13 +39,13 @@ int _strlen(char *str)
 }
 
 /**
- * str_concat - concatenates string
+ * _strcat - concatenates string
  * @s1: first string
  * @s2: second string
  *
  * Return: Concatenated string.
  */
-char *str_concat(char *s1, char *s2)
+char *_strcat(char *s1, char *s2)
 {
 	char *str;
 	int len1, len2, j, i, k;
@@ -78,13 +78,13 @@ char *str_concat(char *s1, char *s2)
 }
 
 /**
- * *first_char - checks first character
+ * *starts_with - checks first character
  * @haystack: string to check
  * @needle: substring to find
  *
  *Return: address of next char or NULL if none.
  */
-char *first_char(const char *haystack, const char *needle)
+char *starts_with(const char *haystack, const char *needle)
 {
 	while (*needle)
 		if (*needle++ != *haystack++)

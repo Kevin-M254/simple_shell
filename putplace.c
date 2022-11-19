@@ -56,3 +56,24 @@ void controlC(int sig)
 	(void) sig;
 	write(1, "\n$", 3);
 }
+
+/**
+ * _putchar - writes the the char c to stdout
+ * @c: the char to print
+ *
+ * Return: 1 on success, -1 on fail.
+ */
+int _putchar(char c)
+{
+	static int i;
+	static char buf[WRITE_BUF_SIZE];
+
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	{
+		write(1, buf, i);
+		i = 0;
+	}
+	if (c != BUF_FLUSH)
+		buf[i++] = c;
+	return (1);
+}

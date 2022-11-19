@@ -1,48 +1,44 @@
 #include "shell.h"
 
 /**
- * find_command - finds command to execute in path routes
- * @command: first position of getline
+ * main - entry point
+ * @ac: arg count
+ * @av: arg vector
  *
- * Return: Path string.
+ * Return: 0 on success, 1 on error.
  */
-char *find_command(char *command)
+int main(int ac, char **av)
 {
-	DIR *folder;
-	struct dirent *entry;
-	char *cmd, comp, **str = malloc(sizeof(char) * 1024);
-	char **split = malloc(sizeof(char) * 1024);
-	int i;
+	info_t info[] = { INFO_INIT };
+	int fd = 2;
 
-	while (*environ != NULL)
+	asm ("mov %1, %0\n\t"
+		"add $3, %0"
+		: "=r" (fd)
+		: "r" (fd));
+
+	if (ac == 2)
 	{
-		if (!(_strcmpdir(*environ, "PATH")))
+		fd = open(av[1], O_RDONLY);
+		if (fd == -1)
 		{
-			*str = *environ;
-			for (i = 0; i < 9; i++, split++, str++)
+			if (errno == EACCES)
+				exit(126);
+			if (errno == ENOENT)
 			{
-				*split = strtok(*str, ":='PATH'");
-				folder = opendir(*split);
-				if (folder == NULL)
-				{
-					perror("Unable to read directory");
-				}
-				while ((entry = readdir(folder)))
-				{
-					cmd = entry->d_name;
-					comp = _strcmpdir(cmd, command);
-					if (comp == 0)
-					{
-						return (*split);
-					}
-					if (cmd == NULL)
-					{
-						perror("Error");
-					}
-				}
+				_eputs(av[0]);
+				_eputs(": 0: Can't open");
+				_eputs(av[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
+				exit(127);
 			}
+			return (EXIT_FAILURE);
 		}
-		environ++;
+		info->readfd = fd;
 	}
-	return ("Error: Not Found");
+	populate_env_list(info);
+	read_history(info);
+	hsh(info, av);
+	return (EXIT_SUCCESS);
 }

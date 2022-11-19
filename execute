@@ -31,9 +31,9 @@ void run_cmd(char **cmd)
 	{
 		f = find_command(vartoprint);
 
-		slash = str_concat(f, slash);
+		slash = _strcat(f, slash);
 
-		s = str_concat(slash, *cmd);
+		s = _strcat(slash, *cmd);
 
 		argv[0] = s;
 		argv[1] = param;
